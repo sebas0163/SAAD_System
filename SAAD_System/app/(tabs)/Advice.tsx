@@ -1,5 +1,9 @@
 import React from "react";
-
+import { Text } from "react-native";
 export default function Advice(){
-    return 0;
+    return (
+        <Text>
+            Hola mundo
+        </Text>
+    )
 }
