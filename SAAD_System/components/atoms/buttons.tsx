@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 
-export function Buttons({onPress}:{onPress:()=>void}){
+export function Buttons({onPress,text}:{onPress:()=>void, text:string}){
     return(
         <View style={styles.container}>
             <Pressable style={styles.button_st} onPress={onPress}>
                 <Text style={styles.text_b}>
-                    Establecer conexión
+                    {text}
                 </Text>
             </Pressable>
         </View>

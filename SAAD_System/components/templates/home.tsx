@@ -14,7 +14,7 @@ export function Home(){
                 <StatusBar style="light" backgroundColor="#6a51ae" />
                 <Title text="SAAD Aplication" />
                 <CenterText text_="Para iniciar con la Aplicación SAAD por favor vincule su dispositivo." />
-                <Button_atom onPress={()=>{Alert.alert("Estado de la conexión","Conectado con éxito!!")}} /> 
+                <Button_atom text="Establecer Conexión" onPress={()=>{Alert.alert("Estado de la conexión","Conectado con éxito!!")}} /> 
                 {/*agregar aqui arriba el método de conexión */}
             </ImageBackground>
             
