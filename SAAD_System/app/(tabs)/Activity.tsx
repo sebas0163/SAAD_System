@@ -1,6 +1,6 @@
 import React from "react";
-import PersonalInfoTemplate from "@/components/templates/Personal_Info";
+import ActivityTemp from "@/components/templates/Activity";
 
 export default function Activity(){
-    return <PersonalInfoTemplate/>;
+    return <ActivityTemp/>;
 }
