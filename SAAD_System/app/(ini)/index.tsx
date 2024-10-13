@@ -1,7 +1,7 @@
 import { Image, StyleSheet, Platform } from 'react-native';
 import { Index } from '@/components/templates';
 
-export default function HomeScreen() {
+export default function IndexScreen() {
   return (
     <Index />
   );

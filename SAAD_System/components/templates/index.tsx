@@ -17,7 +17,7 @@ export function Index(){
                 <Title text="SAAD Aplication" />
                 <CenterText text_="Para iniciar con la Aplicación SAAD por favor vincule su dispositivo." />
                 <Button_atom text="Establecer Conexión" onPress={()=>{Alert.alert("Estado de la conexión","Conectado con éxito!!");
-                    router.navigate('home');
+                    router.navigate('/(tabs)/home');
                 }} /> 
                 {/*agregar aqui arriba el método de conexión */}
             </ImageBackground>
