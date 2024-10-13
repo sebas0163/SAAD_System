@@ -1,9 +1,9 @@
 import { Image, StyleSheet, Platform } from 'react-native';
-import Home from '@/app/(tabs)/home';
+import { Index } from '@/components/templates';
 
 export default function HomeScreen() {
   return (
-    <Home />
+    <Index />
   );
 }
 

@@ -26,7 +26,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name='Activity'
         options={{
-          title:'Activity',
+          title:'Actividad',
           tabBarIcon: ({color, focused})=>(
             <TabBarIcon name={focused ? 'barbell' : 'barbell-outline'} color={color}/>
           )
@@ -35,7 +35,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name='Stadistics'
         options={{
-          title:'Stadistics',
+          title:'Estadísticas',
           tabBarIcon: ({color, focused})=>(
             <TabBarIcon name={focused ? 'analytics' : 'analytics-outline'} color={color}/>
           )
@@ -44,7 +44,7 @@ export default function TabLayout() {
       <Tabs.Screen
       name='Advice'
       options={{
-        title:'Advice',
+        title:'Consejos',
         tabBarIcon: ({color, focused})=>(
           <TabBarIcon name={focused ? 'fitness' : 'fitness-outline'} color={color}/>
         )
@@ -53,7 +53,7 @@ export default function TabLayout() {
     <Tabs.Screen
         name='UserInfo'
         options={{
-          title:'User-Info',
+          title:'Usuario',
           tabBarIcon: ({color, focused})=>(
             <TabBarIcon name={focused ? 'accessibility' : 'accessibility-outline'} color={color}/>
           )

@@ -4,7 +4,7 @@ import { Picker } from "@react-native-picker/picker";
 import WeekGraphics from "@/components/molecules/Week_Graphics";
 import Title from "@/components/atoms/title";
 
-const bg= {uri:'https://w0.peakpx.com/wallpaper/171/1003/HD-wallpaper-black-plain-solid-black.jpg' }
+const bg= require("@/assets/images/wallpaper.jpg");
 
 export default function StadisticsView(){
     const [selectedValue, setSelectedValue] = useState("día");

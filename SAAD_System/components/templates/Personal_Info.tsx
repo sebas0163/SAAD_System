@@ -3,7 +3,7 @@ import { ImageBackground, StyleSheet, View } from "react-native";
 import TextInputArea from "@/components/molecules/Text_input_area";
 import Title from "@/components/atoms/title";
 
-const bg= {uri:'https://st.depositphotos.com/1258191/2507/i/450/depositphotos_25078065-stock-photo-fit-woman.jpg' }
+const bg= require("@/assets/images/wallpaper.jpg");
 
 export default function PersonalInfoTemplate(){
     return(

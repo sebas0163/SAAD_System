@@ -4,7 +4,7 @@ import MetricsView from "@/components/molecules/Metrics_View";
 import RoundButtonWithTimer from "@/components/atoms/round_button";
 import Title from "@/components/atoms/title";
 
-const bg= {uri:'https://w0.peakpx.com/wallpaper/171/1003/HD-wallpaper-black-plain-solid-black.jpg' }
+const bg= require("@/assets/images/wallpaper.jpg");
 
 export default function ActivityTemp(){
     return(

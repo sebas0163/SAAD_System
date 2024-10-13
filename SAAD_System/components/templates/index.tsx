@@ -8,17 +8,18 @@ import { useRouter } from "expo-router";
 
 const ini= require("@/assets/images/home.jpg");
 
-export function Home(){
+export function Index(){
     const router= useRouter();
     return(
         <View style={styles.container}>
             <ImageBackground source={ini} resizeMode="cover" style={styles.image}>
-                <View style={styles.text_cont}>
-                    <StatusBar style="light" backgroundColor="#6a51ae" />
-                    <Title text="SAAD Aplication" />
-                    <CenterText text_="Dispositivo vinculado. ¡Hora de Entrenar!" />
-                    <CenterText text_="Revisa todas la caracterísitcas que te ofrece SAAD para mejorar tu salud" />
-                </View>
+                <StatusBar style="light" backgroundColor="#6a51ae" />
+                <Title text="SAAD Aplication" />
+                <CenterText text_="Para iniciar con la Aplicación SAAD por favor vincule su dispositivo." />
+                <Button_atom text="Establecer Conexión" onPress={()=>{Alert.alert("Estado de la conexión","Conectado con éxito!!");
+                    router.navigate('home');
+                }} /> 
+                {/*agregar aqui arriba el método de conexión */}
             </ImageBackground>
             
         </View> 
@@ -34,7 +35,4 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
       },
-      text_cont:{
-        marginBottom:100
-      }
 })
