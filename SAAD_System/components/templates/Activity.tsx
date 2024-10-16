@@ -11,7 +11,7 @@ export default function ActivityTemp(){
         <View style={styles.content}>
             <ImageBackground style={styles.imageBG} source={bg} resizeMode="cover">
                 <Title text="¡Comencemos!" />
-                <RoundButtonWithTimer />
+                
                 <MetricsView /> 
             </ImageBackground>
         </View>
