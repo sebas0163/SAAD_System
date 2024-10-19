@@ -28,10 +28,44 @@ export class databaseController{
                 weight: weight 
             });
             console.log("Modificado con exito");
+            this.getInfo();
         }catch(error){
             console.log("error");
         }
         
+    }
+    async getInfo(){
+        this.db = getFirestore("(default)");
+        const docRef = doc(this.db, "userInfo", "R61l2zcBOozT3rS0MS49");
+        const data_ = await getDoc(docRef);
+        if(data_ != undefined){
+            console.log(data_.data().age); // manejar error pero funciona
+        }else{
+            console.log("error no existe el documento con ese id"); // manejar error pero funciona
+        }
+        
+
+    }
+    async sendTrainingInfo(oxygen:number[], heart:number[], time:number){
+        this.db = getFirestore("(default)");
+        try{
+            const docRef = await addDoc(collection(this.db, "Trainings"),{
+                SPO2: oxygen,
+                heartRate: heart,
+                time: time,
+                date: new Date()
+            });
+            console.log("Exito al almacenar los datos");
+        }catch(error){
+            console.log("Error al almacenar los datos");
+        }
+        
+    }
+    async getDayTraining(){
+        //later
+    }
+    async weekTraining(){
+        //later
     }
 
 }

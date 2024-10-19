@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet,TouchableOpacity,Text } from "react-native";
 import TextHolder from "@/components/atoms/TextHolder";
-
+import { databaseController } from "@/services/firebase";
 const ESP32_URL = 'http://192.168.100.13:80/data';
 
 export default function MetricsView() {
+  const database = new databaseController();
   const [isRunning, setIsRunning] = useState(false);  // Estado para saber si el cronómetro está corriendo
   const [time, setTime] = useState(0);                // Estado para el tiempo del cronómetro (en segundos)
   const [data, setData] = useState<{ pulsaciones: string; oxigenacion: string } | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [oxigenData,setOxigenData]= useState<number[]>([]);
+  const [heartData,setHeartData]= useState<number[]>([]);
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>; // Tipo dinámico compatible con navegadores y Node.js
@@ -31,8 +34,11 @@ export default function MetricsView() {
     setIsRunning(!isRunning); // Alternar entre iniciar y detener el cronómetro
   };
 
+
+
   const handleReset = () => {
     setIsRunning(false);
+    database.sendTrainingInfo(oxigenData,heartData,time);
     setData(null); 
     setTime(0); // Reiniciar el cronómetro
   };
@@ -65,11 +71,13 @@ export default function MetricsView() {
 
       const interval = setInterval(() => {
         fetchData(); // Obtener datos cada minuto cuando el cronómetro está en marcha
+        setOxigenData(prevOxigenData => data?.oxigenacion ? [...prevOxigenData, Number(data.oxigenacion)]:prevOxigenData);
+        setHeartData(prevHeartData => data?.pulsaciones ? [...prevHeartData, Number(data.pulsaciones)] : prevHeartData);
       }, 3000);
 
       return () => clearInterval(interval); // Limpiar el intervalo al desmontar
     }
-  }, [isRunning]);
+  }, [isRunning,data]);
 
   return (
     <View style={styles.content}>
