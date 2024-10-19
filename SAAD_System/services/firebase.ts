@@ -1,6 +1,6 @@
 // firebase.ts
 
-import {getFirestore, collection, doc, getDoc, getDocs, query, where, addDoc, deleteDoc, updateDoc} from 'firebase/firestore';
+import {getFirestore, doc, getDoc, getDocs, query, where, addDoc, deleteDoc, updateDoc, collection} from 'firebase/firestore';
 import { initializeApp } from "firebase/app";
 
 export class databaseController{
@@ -48,12 +48,14 @@ export class databaseController{
     }
     async sendTrainingInfo(oxygen:number[], heart:number[], time:number){
         this.db = getFirestore("(default)");
+        const day = new Date;
+        const currentDate = day.toISOString().split('T')[0];
         try{
             const docRef = await addDoc(collection(this.db, "Trainings"),{
                 SPO2: oxygen,
                 heartRate: heart,
                 time: time,
-                date: new Date()
+                date: currentDate
             });
             console.log("Exito al almacenar los datos");
         }catch(error){
@@ -62,7 +64,31 @@ export class databaseController{
         
     }
     async getDayTraining(){
-        //later
+        this.db = getFirestore("(default)");
+        const day = new Date;
+        const currentDate = day.toISOString().split('T')[0];
+        try{
+            const collection_ = collection(this.db, "Trainings");
+            const query_ = query(collection_, where("date", "==", currentDate));
+            const querySnapShot = await getDocs(query_);
+            if(querySnapShot.empty){
+                return ([0,[],[]]);
+            }else{
+                let totalTime =0;
+                let totalOxygen:Number[] = [];
+                let totalheart:Number[] = [];
+                let day = "";
+                querySnapShot.forEach((doc)=>{
+                    totalTime += doc.data().time;
+                    totalOxygen += doc.data().SPO2;
+                    console.log(doc.data().SPO2)
+                })
+                return ([totalTime, totalOxygen, totalheart]);
+            }
+        }catch(error){
+            console.log("No hay datos para el día de hoy");
+            return ([0,[],[]]);
+        }
     }
     async weekTraining(){
         //later

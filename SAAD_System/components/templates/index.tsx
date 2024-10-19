@@ -5,10 +5,12 @@ import CenterText from "@/components/atoms/center_text";
 import { StatusBar } from "expo-status-bar";
 import Title from '@/components/atoms/title';
 import { useRouter } from "expo-router";
+import { databaseController } from "@/services/firebase";
 
 const ini= require("@/assets/images/home.jpg");
 
 export function Index(){
+    const database = new databaseController();
     const router= useRouter();
     return(
         <View style={styles.container}>
@@ -16,8 +18,7 @@ export function Index(){
                 <StatusBar style="light" backgroundColor="#6a51ae" />
                 <Title text="SAAD Aplication" />
                 <CenterText text_="Para iniciar con la Aplicación SAAD por favor vincule su dispositivo." />
-                <Button_atom text="Establecer Conexión" onPress={()=>{Alert.alert("Estado de la conexión","Conectado con éxito!!");
-                    router.navigate('/(tabs)/home');
+                <Button_atom text="Establecer Conexión" onPress={()=>{database.getDayTraining()
                 }} /> 
                 {/*agregar aqui arriba el método de conexión */}
             </ImageBackground>
