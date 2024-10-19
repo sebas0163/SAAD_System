@@ -20,12 +20,18 @@ export class databaseController{
     }
     async addInfo(age:number, height:number, weight:number){
         this.db = getFirestore("(default)");
-        const docRef= await addDoc(collection(this.db,"userInfo"), {
-            age:age,
-            height:height,
-            weight: weight 
-        });
-        console.log("documento creado: ", this.db);
+        try{
+            const docRef = doc(this.db, "userInfo", "R61l2zcBOozT3rS0MS49");
+            await updateDoc(docRef,{
+                age:age,
+                height:height,
+                weight: weight 
+            });
+            console.log("Modificado con exito");
+        }catch(error){
+            console.log("error");
+        }
+        
     }
 
 }
