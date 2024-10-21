@@ -1,18 +1,27 @@
-
-
-export default function CalcCalories(mode:number){
+export  function CalcCaloriesWeek(mode:number[], time:number[], weight: number){
     /**
-     * Base de datos posee por día horas entrandas => promedio de pulsaciones => promedio 
+     * Mode: from 0 to 2, and its the MET (for running)
      */
-    var calorias =[];
-    if(mode ==0){
-        // Llamar a la base para obtener los datos del día 
-        const time = 60;
-        const peso = 70;
-        const MET = 2 // MET INTENSIDAD DEL EJERCICIO
-        calorias = [time *((MET * peso)/60)];
-        return calorias
-    }else{
-
+    let calorias =[];
+    for(let i =0; i <7; i++){
+        calorias.push((CalcCaloriesDay(mode[i], time[i]*60, weight)));
     }
+    console.log(calorias);
+    return calorias
+}
+export  function CalcCaloriesDay(mode:number, time:number, weight:number){
+    /**
+         * Mode: from 0 to 2, and its the MET (for running)
+         */
+    let cal =0;
+    let met = 0;
+    if(mode ==0){
+        met =3;
+    }else if (mode ==1){
+        met =8
+    }else{
+        met = 12
+    }
+    cal = Math.round((time/60) *((met * weight))/60);
+    return cal
 }

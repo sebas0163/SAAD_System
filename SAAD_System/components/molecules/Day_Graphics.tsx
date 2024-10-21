@@ -3,6 +3,7 @@ import { View,StyleSheet, Text } from "react-native";
 import Graphic from "@/components/atoms/Graphics";
 import Title from "@/components/atoms/title";
 import { databaseController } from "@/services/firebase";
+import { CalcCaloriesDay } from "@/services/caloriesCacl";
 
 export default function DayGraphics(){
     const database = new databaseController();
@@ -10,6 +11,7 @@ export default function DayGraphics(){
     const [oxygen, setOxygen] = useState<number[]>([]);
     const [heart, setHeart] = useState<number[]>([]);
     const [time, setTime] = useState<number>(0);
+    const [calories, setcal] = useState<number>(0);
 
    useEffect(() => {
         setDays([" ", " ", " ", " ", " ", " ", " "]);
@@ -23,12 +25,13 @@ export default function DayGraphics(){
 
     const fetchData = async ()=>{
         const json = await database.getDayTraining();
+        const info = await database.getInfo();
         if(json != null){
             setOxygen(json.oxygen);
             setHeart(json.heartRate);
             setTime(json.time);
             setDays([" ", " ", " ", " ", " ", " ", " "]);
-            //algoritmo de analisis de
+            setcal(CalcCaloriesDay(json.type, json.time, info.weight));
         }else{
             setDays([" ", " ", " ", " ", " ", " ", " "]);
             setOxygen([0,0,0,0,0,0,0]);
@@ -49,7 +52,7 @@ export default function DayGraphics(){
             <Graphic label={days} datasets={oxygen.length >0 ? oxygen: [100,200,300,400,500,600,100]}/>
             {/*Aqui se llama al algoritmo que da los datos */}
             <Text style={styles.text}>
-                Calorías Quemadas: 80 cal
+                Calorías Quemadas: {calories} cal
             </Text>
             <Text style={styles.text}>
                 Tiempo de Ejercicio: {time/ 60} minutos

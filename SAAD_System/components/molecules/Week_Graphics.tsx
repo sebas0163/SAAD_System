@@ -3,6 +3,7 @@ import { View,StyleSheet, Text } from "react-native";
 import Graphic from "@/components/atoms/Graphics";
 import Title from "@/components/atoms/title";
 import { databaseController } from "@/services/firebase";
+import { CalcCaloriesWeek } from "@/services/caloriesCacl";
 
 export default function WeekGraphics(){
     const database = new databaseController();
@@ -11,12 +12,14 @@ export default function WeekGraphics(){
     const [oxygen, setOxygen] = useState<number[]>([]);
     const [heart, setHeart] = useState<number[]>([]);
     const [time, setTime] = useState<number[]>([]);
+    const [calories, setcal] = useState<number[]>([]);
 
    useEffect(() => {
         setDays(["lun", "mar", "Mie", "Jue", "Vie", "Sab", "Dom"]);
         setOxygen([0,0,0,0,0,0,0]);
         setHeart([0,0,0,0,0,0,0]);
         setTime([0,0,0,0,0,0,0]);
+        setcal([0,0,0,0,0,0,0]);
         fetchData();
         
         
@@ -24,17 +27,19 @@ export default function WeekGraphics(){
 
     const fetchData = async ()=>{
         const json = await database.weekTraining();
+        const info = await database.getInfo();
         if(json != null){
             setDays(json.date);
             setOxygen(json.oxygen);
             setHeart(json.heartRate);
             setTime(json.time);
-            //algoritmo de analisis de
+            setcal(CalcCaloriesWeek(json.type, json.time, info.weight));
         }else{
             setDays(["lun", "mar", "Mie", "Jue", "Vie", "Sab", "Dom"]);
             setOxygen([0,0,0,0,0,0,0]);
             setHeart([0,0,0,0,0,0,0]);
             setTime([0,0,0,0,0,0,0]);
+            setcal([0,0,0,0,0,0,0]);
         }
     }
     return(
@@ -42,7 +47,7 @@ export default function WeekGraphics(){
             <Text style={styles.text}>
                 Calorías Quemadas Cal
             </Text>
-            <Graphic label={days.length >0 ? days:["lun", "mar", "Mie", "Jue", "Vie", "Sab", "Dom"] } datasets={[100,200,300,400,500,600,100]}/>
+            <Graphic label={days.length >0 ? days:["lun", "mar", "Mie", "Jue", "Vie", "Sab", "Dom"] } datasets={calories.length >0 ? calories:[100,200,300,400,500,600,100] }/>
             {/*Aqui se llama al algoritmo que da los datos */}
             <Text style={styles.text}>
                 Tiempo de Ejercicio en minutos

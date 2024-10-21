@@ -38,15 +38,25 @@ export class databaseController{
         this.db = getFirestore("(default)");
         const docRef = doc(this.db, "userInfo", "R61l2zcBOozT3rS0MS49");
         const data_ = await getDoc(docRef);
-        if(data_ != undefined){
-            console.log(data_.data().age); // manejar error pero funciona
+        if(data_.exists()){
+            let result={
+                age: data_.data().age,
+                weight: data_.data().weight,
+                height: data_.data().height
+
+            }
+            return result
         }else{
-            console.log("error no existe el documento con ese id"); // manejar error pero funciona
+            return {
+                age: 30,
+                weight: 70,
+                height: 1.80
+            }
         }
         
 
     }
-    async sendTrainingInfo(oxygen:number[], heart:number[], time:number){
+    async sendTrainingInfo(oxygen:number[], heart:number[], time:number, type:number){
         this.db = getFirestore("(default)");
         const day = new Date;
         const currentDate = day.toISOString().split('T')[0];
@@ -61,7 +71,8 @@ export class databaseController{
                     await updateDoc(docRef,{
                         SPO2: arrayUnion(...oxygen),
                         heartRate: arrayUnion(...heart),
-                        time: increment(time)
+                        time: increment(time),
+                        type: type
                     });
                 });
             }else{
@@ -69,7 +80,8 @@ export class databaseController{
                     SPO2: oxygen,
                     heartRate: heart,
                     time: time,
-                    date: currentDate
+                    date: currentDate,
+                    type: type
                 });
             }
             console.log("Exito al almacenar los datos");
@@ -93,15 +105,18 @@ export class databaseController{
                 let totalOxygen:number[] = [];
                 let totalheart:number[] = [];
                 let day = "";
+                let type = 0;
                 querySnapShot.forEach((doc)=>{
                     totalTime = doc.data().time;
                     totalOxygen = doc.data().SPO2;
                     totalheart = doc.data().heartRate;
+                    type = doc.data().type;
                 })
                 const result = {
                     time: totalTime,
                     oxygen: totalOxygen,
-                    heartRate: totalheart
+                    heartRate: totalheart,
+                    type: type
                 }
                 console.log(result);
                 return (result);
@@ -128,6 +143,7 @@ export class databaseController{
                 let totalOxygen:number[] = [0,0,0,0,0,0,0];
                 let totalheart:number[] = [0,0,0,0,0,0,0];
                 let day:string[] = ["","","","","","",""];
+                let type:number[] = [0,0,0,0,0,0,0];
                 let cont = 0;
                 querySnapShot.forEach((doc)=>{
                     totalTime[cont] = doc.data().time/60;
@@ -136,13 +152,15 @@ export class databaseController{
                     totalOxygen[cont]= (oxygenArr.reduce((acc,curr) => acc + curr,0))/oxygenArr.length;
                     totalheart[cont]= (heartArr.reduce((acc,curr)=> acc+curr,0))/heartArr.length;
                     day[cont] = doc.data().date;
+                    type[cont] = doc.data().type;
                     cont ++;
                 })
                 const weekSumary ={
                     time: totalTime,
                     oxygen: totalOxygen,
                     heartRate: totalheart,
-                    date: this.convertDate(day)
+                    date: this.convertDate(day),
+                    type: type
                 };
                 return (weekSumary);
             }

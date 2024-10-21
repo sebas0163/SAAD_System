@@ -3,6 +3,7 @@ import { View, StyleSheet,TouchableOpacity,Text } from "react-native";
 import TextHolder from "@/components/atoms/TextHolder";
 import { databaseController } from "@/services/firebase";
 const ESP32_URL = 'http://192.168.100.13:80/data';
+import { Picker } from "@react-native-picker/picker";
 
 export default function MetricsView() {
   const database = new databaseController();
@@ -38,7 +39,7 @@ export default function MetricsView() {
 
   const handleReset = () => {
     setIsRunning(false);
-    database.sendTrainingInfo(oxigenData,heartData,time);
+    database.sendTrainingInfo(oxigenData,heartData,time, Number(selectedValue));
     setData(null);
     setOxigenData([]);
     setHeartData([]);
@@ -80,9 +81,18 @@ export default function MetricsView() {
       return () => clearInterval(interval); // Limpiar el intervalo al desmontar
     }
   }, [isRunning,data]);
-
+  const [selectedValue, setSelectedValue] = useState("Liviano");
   return (
     <View style={styles.content}>
+        <Picker
+                    selectedValue={selectedValue}
+                    style={styles.picker}
+                    onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+                >
+                    <Picker.Item label="Liviano" value={0} />
+                    <Picker.Item label="Moderado" value={1} />
+                    <Picker.Item label="Intenso" value={2} />
+          </Picker>
         <View style={styles.container}>
             <Text style={styles.timer}>{formatTime(time)}</Text>
             <TouchableOpacity style={styles.button} onPress={handleStartStop}>
@@ -164,4 +174,19 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'white',
   },
+  picker:{
+    marginTop: 20,
+    marginBottom: 20,
+    marginLeft: 200,
+    height: 50,
+    width: 150,
+    backgroundColor: "grey",
+    color:"white",
+    opacity: 0.8,
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25, 
+    borderRadius: 10,
+  }
 });
