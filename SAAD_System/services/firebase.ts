@@ -1,6 +1,6 @@
 // firebase.ts
 
-import {getFirestore, doc, getDoc, getDocs, query, where, addDoc, deleteDoc, updateDoc, collection} from 'firebase/firestore';
+import {getFirestore, doc, getDoc, getDocs, query, where, addDoc, deleteDoc, updateDoc, collection, increment, arrayUnion} from 'firebase/firestore';
 import { initializeApp } from "firebase/app";
 
 export class databaseController{
@@ -51,12 +51,27 @@ export class databaseController{
         const day = new Date;
         const currentDate = day.toISOString().split('T')[0];
         try{
-            const docRef = await addDoc(collection(this.db, "Trainings"),{
-                SPO2: oxygen,
-                heartRate: heart,
-                time: time,
-                date: currentDate
-            });
+            const refDoc = collection(this.db, "Trainings");
+            const q = query(refDoc, where("date", "==", currentDate));
+            const docSnapshot = await getDocs(q);
+            console.log(currentDate);
+            if(!docSnapshot.empty){ // si existe en la fecha se agregan los datos a ese 
+                docSnapshot.forEach(async (doc)=>{
+                    const docRef = doc.ref;
+                    await updateDoc(docRef,{
+                        SPO2: arrayUnion(...oxygen),
+                        heartRate: arrayUnion(...heart),
+                        time: increment(time)
+                    });
+                });
+            }else{
+                const docRef = await addDoc(collection(this.db, "Trainings"),{
+                    SPO2: oxygen,
+                    heartRate: heart,
+                    time: time,
+                    date: currentDate
+                });
+            }
             console.log("Exito al almacenar los datos");
         }catch(error){
             console.log("Error al almacenar los datos");
@@ -78,10 +93,10 @@ export class databaseController{
                 let totalOxygen:Number[] = [];
                 let totalheart:Number[] = [];
                 let day = "";
-                querySnapShot.forEach((doc)=>{
+                querySnapShot.forEach((doc)=>{ //optimizar no es necesario
                     totalTime += doc.data().time;
                     totalOxygen += doc.data().SPO2;
-                    console.log(doc.data().SPO2)
+                    totalheart += doc.data().heartRate;
                 })
                 return ([totalTime, totalOxygen, totalheart]);
             }
@@ -91,7 +106,44 @@ export class databaseController{
         }
     }
     async weekTraining(){
-        //later
+        this.db = getFirestore("(default)");
+        const day = new Date;
+        const sevenDaysAgo = new Date(day);
+        sevenDaysAgo.setDate(day.getDate() - 7); // Resta 7 días a la fecha actual
+        const currentDate =sevenDaysAgo.toISOString().split('T')[0];
+        try{
+            const collection_ = collection(this.db, "Trainings");
+            const query_ = query(collection_, where("date", ">=", currentDate));
+            const querySnapShot = await getDocs(query_); 
+            if(querySnapShot.empty){
+                return ({});
+            }else{
+                let totalTime:Number[] = [0,0,0,0,0,0,0];
+                let totalOxygen:Number[] = [0,0,0,0,0,0,0];
+                let totalheart:Number[] = [0,0,0,0,0,0,0];
+                let day:string[] = ["","","","","","",""];
+                let cont = 0;
+                querySnapShot.forEach((doc)=>{
+                    totalTime[cont] = doc.data().time;
+                    let oxygenArr:number[] =  doc.data().SPO2;
+                    let heartArr:number[] = doc.data().heartRate;
+                    totalOxygen[cont]= (oxygenArr.reduce((acc,curr) => acc + curr,0))/oxygenArr.length;
+                    totalheart[cont]= (heartArr.reduce((acc,curr)=> acc+curr,0))/heartArr.length;
+                    cont ++;
+                })
+                const weekSumary ={
+                    time: totalTime,
+                    oxygen: totalOxygen,
+                    heartRate: totalheart,
+                    date: day 
+                };
+                console.log(weekSumary);
+                return (weekSumary);
+            }
+        }catch(error){
+            console.log("No hay datos para el día de hoy");
+            return ({});
+        }
     }
 
 }

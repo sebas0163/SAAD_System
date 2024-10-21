@@ -39,7 +39,9 @@ export default function MetricsView() {
   const handleReset = () => {
     setIsRunning(false);
     database.sendTrainingInfo(oxigenData,heartData,time);
-    setData(null); 
+    setData(null);
+    setOxigenData([]);
+    setHeartData([]);
     setTime(0); // Reiniciar el cronómetro
   };
 
