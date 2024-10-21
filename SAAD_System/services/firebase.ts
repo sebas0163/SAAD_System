@@ -117,11 +117,11 @@ export class databaseController{
             const query_ = query(collection_, where("date", ">=", currentDate));
             const querySnapShot = await getDocs(query_); 
             if(querySnapShot.empty){
-                return ({});
+                return (null);
             }else{
-                let totalTime:Number[] = [0,0,0,0,0,0,0];
-                let totalOxygen:Number[] = [0,0,0,0,0,0,0];
-                let totalheart:Number[] = [0,0,0,0,0,0,0];
+                let totalTime:number[] = [0,0,0,0,0,0,0];
+                let totalOxygen:number[] = [0,0,0,0,0,0,0];
+                let totalheart:number[] = [0,0,0,0,0,0,0];
                 let day:string[] = ["","","","","","",""];
                 let cont = 0;
                 querySnapShot.forEach((doc)=>{
@@ -137,14 +137,23 @@ export class databaseController{
                     time: totalTime,
                     oxygen: totalOxygen,
                     heartRate: totalheart,
-                    date: day 
+                    date: this.convertDate(day)
                 };
                 return (weekSumary);
             }
         }catch(error){
             console.log("No hay datos para el día de hoy");
-            return ({});
+            return (null);
         }
+    }
+    convertDate(dates:string[]):string[]{
+        const days = ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"];
+        return dates.map(date => {
+            const  [year,month,day] = date.split("-").map(Number);
+            const dateObj = new Date(`20${year}-${month}-${day}`);
+            const weekday = dateObj.getDay();
+            return days[weekday]
+        });
     }
 
 }

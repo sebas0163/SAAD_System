@@ -1,30 +1,63 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View,StyleSheet, Text } from "react-native";
 import Graphic from "@/components/atoms/Graphics";
 import Title from "@/components/atoms/title";
+import { databaseController } from "@/services/firebase";
 
 export default function WeekGraphics(){
+    const database = new databaseController();
+    const json = database.weekTraining();
+    const [days, setDays] = useState<string[]>([]);
+    const [oxygen, setOxygen] = useState<number[]>([]);
+    const [heart, setHeart] = useState<number[]>([]);
+    const [time, setTime] = useState<number[]>([]);
+
+   useEffect(() => {
+        setDays(["lun", "mar", "Mie", "Jue", "Vie", "Sab", "Dom"]);
+        setOxygen([0,0,0,0,0,0,0]);
+        setHeart([0,0,0,0,0,0,0]);
+        setTime([0,0,0,0,0,0,0]);
+        fetchData();
+        
+        
+    }, []);
+
+    const fetchData = async ()=>{
+        const json = await database.weekTraining();
+        if(json != null){
+            setDays(json.date);
+            setOxygen(json.oxygen);
+            setHeart(json.heartRate);
+            setTime(json.time);
+            //algoritmo de analisis de
+        }else{
+            setDays(["lun", "mar", "Mie", "Jue", "Vie", "Sab", "Dom"]);
+            setOxygen([0,0,0,0,0,0,0]);
+            setHeart([0,0,0,0,0,0,0]);
+            setTime([0,0,0,0,0,0,0]);
+        }
+    }
     return(
         <View style = {styles.content}>
             <Text style={styles.text}>
                 Calorías Quemadas
             </Text>
-            <Graphic label={["lun", "mar", "Mie", "Jue", "Vie", "Sab", "Dom"]} datasets={[100,200,300,400,500,600,100]}/>
+            <Graphic label={days.length >0 ? days:["lun", "mar", "Mie", "Jue", "Vie", "Sab", "Dom"] } datasets={[100,200,300,400,500,600,100]}/>
             {/*Aqui se llama al algoritmo que da los datos */}
             <Text style={styles.text}>
                 Tiempo de Ejercicio
             </Text>
-            <Graphic label={["lun", "mar", "Mie", "Jue", "Vie", "Sab", "Dom"]} datasets={[1,2,0.5,1,2,2,0]}/>
+            <Graphic label={days} datasets={time.length>0 ? time:[100,200,300,400,500,600,100]}/>
             {/*Aqui se llama al algoritmo que da los datos */}
             <Text style={styles.text}>
                 Ritmo Cardiaco Promedio
             </Text>
-            <Graphic label={["lun", "mar", "Mie", "Jue", "Vie", "Sab", "Dom"]} datasets={[90,50,90,100,110,80,90]}/>
+            <Graphic label={days} datasets={heart.length >0 ? heart: [100,200,300,400,500,600,100]}/>
             {/*Aqui se llama al algoritmo que da los datos */}
             <Text style={styles.text}>
                 Oxigenación Promedio
             </Text>
-            <Graphic label={["lun", "mar", "Mie", "Jue", "Vie", "Sab", "Dom"]} datasets={[20,80,100,90,40,20,10]}/>
+            <Graphic label={days} datasets={oxygen.length >0 ? oxygen: [100,200,300,400,500,600,100]}/>
             {/*Aqui se llama al algoritmo que da los datos */}
         </View>
     )
