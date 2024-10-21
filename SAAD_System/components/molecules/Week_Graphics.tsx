@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { View,StyleSheet, Text } from "react-native";
 import Graphic from "@/components/atoms/Graphics";
-import Title from "@/components/atoms/title";
 import { databaseController } from "@/services/firebase";
-import { CalcCaloriesWeek } from "@/services/caloriesCacl";
+import { CalcCaloriesWeek, trainingZones } from "@/services/caloriesCacl";
+import Pie_Chart from "@/components/atoms/piechart";
 
 export default function WeekGraphics(){
     const database = new databaseController();
-    const json = database.weekTraining();
     const [days, setDays] = useState<string[]>([]);
     const [oxygen, setOxygen] = useState<number[]>([]);
     const [heart, setHeart] = useState<number[]>([]);
     const [time, setTime] = useState<number[]>([]);
     const [calories, setcal] = useState<number[]>([]);
+    const [zones, setzones] = useState<number[]>([]);
 
    useEffect(() => {
         setDays(["lun", "mar", "Mie", "Jue", "Vie", "Sab", "Dom"]);
@@ -20,9 +20,8 @@ export default function WeekGraphics(){
         setHeart([0,0,0,0,0,0,0]);
         setTime([0,0,0,0,0,0,0]);
         setcal([0,0,0,0,0,0,0]);
+        setzones([0,0,0]);
         fetchData();
-        
-        
     }, []);
 
     const fetchData = async ()=>{
@@ -34,12 +33,14 @@ export default function WeekGraphics(){
             setHeart(json.heartRate);
             setTime(json.time);
             setcal(CalcCaloriesWeek(json.type, json.time, info.weight));
+            setzones(trainingZones(info.age, json.heartRate));
         }else{
             setDays(["lun", "mar", "Mie", "Jue", "Vie", "Sab", "Dom"]);
             setOxygen([0,0,0,0,0,0,0]);
             setHeart([0,0,0,0,0,0,0]);
             setTime([0,0,0,0,0,0,0]);
             setcal([0,0,0,0,0,0,0]);
+            setzones([0,0,0]);
         }
     }
     return(
@@ -63,7 +64,10 @@ export default function WeekGraphics(){
                 Oxigenación Promedio
             </Text>
             <Graphic label={days} datasets={oxygen.length >0 ? oxygen: [100,200,300,400,500,600,100]}/>
-            {/*Aqui se llama al algoritmo que da los datos */}
+            <Text style={styles.text}>
+                Porcentaje de las zonas de entrenamiento:
+            </Text>
+            <Pie_Chart porcent={zones.length >0 ? zones: [0,0,0]}/>
         </View>
     )
 }

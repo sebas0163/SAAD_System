@@ -3,7 +3,8 @@ import { View,StyleSheet, Text } from "react-native";
 import Graphic from "@/components/atoms/Graphics";
 import Title from "@/components/atoms/title";
 import { databaseController } from "@/services/firebase";
-import { CalcCaloriesDay } from "@/services/caloriesCacl";
+import { CalcCaloriesDay, trainingZones } from "@/services/caloriesCacl";
+import Pie_Chart from "../atoms/piechart";
 
 export default function DayGraphics(){
     const database = new databaseController();
@@ -12,12 +13,14 @@ export default function DayGraphics(){
     const [heart, setHeart] = useState<number[]>([]);
     const [time, setTime] = useState<number>(0);
     const [calories, setcal] = useState<number>(0);
+    const [zones, setzones] = useState<number[]>([]);
 
    useEffect(() => {
         setDays([" ", " ", " ", " ", " ", " ", " "]);
         setOxygen([0,0,0,0,0,0,0]);
         setHeart([0,0,0,0,0,0,0]);
         setTime(0);
+        setzones([0,0,0]);
         fetchData();
         
         
@@ -32,11 +35,13 @@ export default function DayGraphics(){
             setTime(json.time);
             setDays([" ", " ", " ", " ", " ", " ", " "]);
             setcal(CalcCaloriesDay(json.type, json.time, info.weight));
+            setzones(trainingZones(info.age, json.heartRate));
         }else{
             setDays([" ", " ", " ", " ", " ", " ", " "]);
             setOxygen([0,0,0,0,0,0,0]);
             setHeart([0,0,0,0,0,0,0]);
             setTime(0);
+            setzones([0,0,0]);
         }
     }
     return(
@@ -51,12 +56,18 @@ export default function DayGraphics(){
             </Text>
             <Graphic label={days} datasets={oxygen.length >0 ? oxygen: [100,200,300,400,500,600,100]}/>
             {/*Aqui se llama al algoritmo que da los datos */}
+
+            <Text style={styles.text}>
+                Porcentaje de las zonas de entrenamiento:
+            </Text>
+            <Pie_Chart porcent={zones.length >0 ? zones: [0,0,0]}/>
             <Text style={styles.text}>
                 Calorías Quemadas: {calories} cal
             </Text>
             <Text style={styles.text}>
                 Tiempo de Ejercicio: {time/ 60} minutos
             </Text>
+            
 
         </View>
     )
