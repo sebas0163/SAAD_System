@@ -1,7 +1,8 @@
-import React from "react";
+import React,{useState} from "react";
 import { ImageBackground, StyleSheet, View } from "react-native";
 import TextInputArea from "@/components/molecules/Text_input_area";
 import Title from "@/components/atoms/title";
+
 
 const bg= require("@/assets/images/wallpaper.jpg");
 
@@ -12,7 +13,7 @@ export default function PersonalInfoTemplate(){
                 <View style={styles.text_cont}>
                     <Title text="Tu información Personal" />
                 </View>
-                <TextInputArea />
+                <TextInputArea/>
             </ImageBackground>
             
 

@@ -3,6 +3,7 @@ import { View, StyleSheet, ScrollView, ImageBackground } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import WeekGraphics from "@/components/molecules/Week_Graphics";
 import Title from "@/components/atoms/title";
+import DayGraphics from "@/components/molecules/Day_Graphics";
 
 const bg= require("@/assets/images/wallpaper.jpg");
 
@@ -21,7 +22,8 @@ export default function StadisticsView(){
                     <Picker.Item label="Semana" value="Semana" />
                 </Picker>
             {selectedValue === "Día" ? (
-                <Title text="Tu entrenamiento" />
+                //<Title text="Tu entrenamiento" />
+                <DayGraphics/>
             ):(<WeekGraphics />
 
             )}
