@@ -18,9 +18,8 @@ export function Index(){
                 <StatusBar style="light" backgroundColor="#6a51ae" />
                 <Title text="SAAD Aplication" />
                 <CenterText text_="Para iniciar con la Aplicación SAAD por favor vincule su dispositivo." />
-                <Button_atom text="Establecer Conexión" onPress={()=>{Alert.alert("Estado de la conexión","Conectado con éxito!!");
-                    router.navigate('/(tabs)/home');
-                }} /> 
+                <Button_atom text="Establecer Conexión" onPress={()=>{database.weekTraining()}
+                } /> 
                 {/*agregar aqui arriba el método de conexión */}
             </ImageBackground>
             

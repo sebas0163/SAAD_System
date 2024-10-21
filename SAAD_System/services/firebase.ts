@@ -93,11 +93,12 @@ export class databaseController{
                 let totalOxygen:Number[] = [];
                 let totalheart:Number[] = [];
                 let day = "";
-                querySnapShot.forEach((doc)=>{ //optimizar no es necesario
+                querySnapShot.forEach((doc)=>{
                     totalTime += doc.data().time;
                     totalOxygen += doc.data().SPO2;
                     totalheart += doc.data().heartRate;
                 })
+                console.log(totalheart);
                 return ([totalTime, totalOxygen, totalheart]);
             }
         }catch(error){
@@ -129,6 +130,7 @@ export class databaseController{
                     let heartArr:number[] = doc.data().heartRate;
                     totalOxygen[cont]= (oxygenArr.reduce((acc,curr) => acc + curr,0))/oxygenArr.length;
                     totalheart[cont]= (heartArr.reduce((acc,curr)=> acc+curr,0))/heartArr.length;
+                    day[cont] = doc.data().date;
                     cont ++;
                 })
                 const weekSumary ={
@@ -137,7 +139,6 @@ export class databaseController{
                     heartRate: totalheart,
                     date: day 
                 };
-                console.log(weekSumary);
                 return (weekSumary);
             }
         }catch(error){
