@@ -40,17 +40,17 @@ export default function WeekGraphics(){
     return(
         <View style = {styles.content}>
             <Text style={styles.text}>
-                Calorías Quemadas
+                Calorías Quemadas Cal
             </Text>
             <Graphic label={days.length >0 ? days:["lun", "mar", "Mie", "Jue", "Vie", "Sab", "Dom"] } datasets={[100,200,300,400,500,600,100]}/>
             {/*Aqui se llama al algoritmo que da los datos */}
             <Text style={styles.text}>
-                Tiempo de Ejercicio
+                Tiempo de Ejercicio en minutos
             </Text>
             <Graphic label={days} datasets={time.length>0 ? time:[100,200,300,400,500,600,100]}/>
             {/*Aqui se llama al algoritmo que da los datos */}
             <Text style={styles.text}>
-                Ritmo Cardiaco Promedio
+                Ritmo Cardiaco Promedio 
             </Text>
             <Graphic label={days} datasets={heart.length >0 ? heart: [100,200,300,400,500,600,100]}/>
             {/*Aqui se llama al algoritmo que da los datos */}

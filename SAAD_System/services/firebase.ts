@@ -87,23 +87,28 @@ export class databaseController{
             const query_ = query(collection_, where("date", "==", currentDate));
             const querySnapShot = await getDocs(query_);
             if(querySnapShot.empty){
-                return ([0,[],[]]);
+                return (null);
             }else{
                 let totalTime =0;
-                let totalOxygen:Number[] = [];
-                let totalheart:Number[] = [];
+                let totalOxygen:number[] = [];
+                let totalheart:number[] = [];
                 let day = "";
                 querySnapShot.forEach((doc)=>{
-                    totalTime += doc.data().time;
-                    totalOxygen += doc.data().SPO2;
-                    totalheart += doc.data().heartRate;
+                    totalTime = doc.data().time;
+                    totalOxygen = doc.data().SPO2;
+                    totalheart = doc.data().heartRate;
                 })
-                console.log(totalheart);
-                return ([totalTime, totalOxygen, totalheart]);
+                const result = {
+                    time: totalTime,
+                    oxygen: totalOxygen,
+                    heartRate: totalheart
+                }
+                console.log(result);
+                return (result);
             }
         }catch(error){
             console.log("No hay datos para el día de hoy");
-            return ([0,[],[]]);
+            return (null);
         }
     }
     async weekTraining(){
@@ -125,7 +130,7 @@ export class databaseController{
                 let day:string[] = ["","","","","","",""];
                 let cont = 0;
                 querySnapShot.forEach((doc)=>{
-                    totalTime[cont] = doc.data().time;
+                    totalTime[cont] = doc.data().time/60;
                     let oxygenArr:number[] =  doc.data().SPO2;
                     let heartArr:number[] = doc.data().heartRate;
                     totalOxygen[cont]= (oxygenArr.reduce((acc,curr) => acc + curr,0))/oxygenArr.length;
