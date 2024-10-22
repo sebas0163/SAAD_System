@@ -35,6 +35,11 @@ void setup() {
     server.send(200, "application/json", json);
   });
 
+  server.on("/connect", HTTP_GET, [](){
+    String json = "{\"connect\": "+ String(1) + "}"; // Simulación de datos
+    server.send(200, "application/json", json);
+  });
+
   server.begin();
   //Verifica la conexion con el sensor
   while (!particleSensor.begin()) {
