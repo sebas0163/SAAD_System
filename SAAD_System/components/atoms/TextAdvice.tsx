@@ -1,6 +1,17 @@
 import React from "react";
 import { View, StyleSheet, Text} from "react-native";
 
+/**
+ * The `TextAdvice` function is a React component that displays a title and description in a styled
+ * view.
+ * @param  - The `TextAdvice` function is a React component that takes two props: `title` and
+ * `description`. Both props are expected to be of type `string`. The component renders a view with two
+ * text elements: one for the title and one for the description. The `title` prop is displayed
+ * @returns A React component named TextAdvice is being returned. It takes two props, title and
+ * description, both of type string. The component renders a View containing two child Views -
+ * upperCont and lowerCont. The upperCont View contains a Text component displaying the title prop, and
+ * the lowerCont View contains a Text component displaying the description prop.
+ */
 export default function TextAdvice({title, description}:{title:string, description:string}){
     return(
         <View style={styles.content}>

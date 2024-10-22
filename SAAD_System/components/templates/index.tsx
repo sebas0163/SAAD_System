@@ -5,11 +5,18 @@ import CenterText from "@/components/atoms/center_text";
 import { StatusBar } from "expo-status-bar";
 import Title from '@/components/atoms/title';
 import { useRouter } from "expo-router";
-import { databaseController } from "@/services/firebase";
 const ESP32_URL = 'http://192.168.100.13:80/connect';
 
 const ini= require("@/assets/images/home.jpg");
 
+/**
+ * The `Index` function in a TypeScript React component fetches data from a specified URL and handles
+ * the response to establish a connection, displaying alerts based on the connection status.
+ * @returns The `Index` function is returning a JSX element that consists of a `View` component
+ * containing an `ImageBackground` component. Inside the `ImageBackground`, there is a `StatusBar`, a
+ * `Title` component with text "SAAD Application", a `CenterText` component with a message, and a
+ * `Button_atom` component with text "Establecer Conexión" that triggers the
+ */
 export function Index(){
     const router= useRouter();
     const fetchData = async () => {
@@ -32,9 +39,6 @@ export function Index(){
         Alert.alert("Estado de la conexión","No se ha podido establecer la conexión");
       }
     }
-
-
-
     return(
         <View style={styles.container}>
             <ImageBackground source={ini} resizeMode="cover" style={styles.image}>

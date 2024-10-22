@@ -7,6 +7,12 @@ import { databaseController } from "@/services/firebase";
 const bg= require("@/assets/images/wallpaper.jpg");
 
 
+/**
+ * The `AdviceView` function fetches training advice from Cohere based on user and training data, and
+ * displays it in a React component.
+ * @returns The `AdviceView` component is being returned. It contains a view with a background image, a
+ * title for training advice, and a component displaying the fetched advice text.
+ */
 export default function AdviceView(){
     const [text, setText] = useState<string>("");
     const cohere = new CohereClientV2({

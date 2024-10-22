@@ -1,15 +1,19 @@
 import React from "react";
 import { View,StyleSheet, ImageBackground,Text, Alert } from "react-native";
-import {Buttons as Button_atom} from "@/components/atoms/buttons";
 import CenterText from "@/components/atoms/center_text";
 import { StatusBar } from "expo-status-bar";
 import Title from '@/components/atoms/title';
-import { useRouter } from "expo-router";
 
 const ini= require("@/assets/images/home.jpg");
 
+/**
+ * The `Home` function in TypeScript React renders a view with an image background and text content for
+ * a SAAD application.
+ * @returns The `Home` component is being returned. It contains a View component with an
+ * ImageBackground component as its child. Inside the ImageBackground component, there is a View
+ * component with a StatusBar component, a Title component, and two CenterText components.
+ */
 export function Home(){
-    const router= useRouter();
     return(
         <View style={styles.container}>
             <ImageBackground source={ini} resizeMode="cover" style={styles.image}>

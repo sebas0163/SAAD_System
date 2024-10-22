@@ -5,7 +5,10 @@ import { databaseController } from "@/services/firebase";
 const ESP32_URL = 'http://192.168.100.13:80/data';
 import { Picker } from "@react-native-picker/picker";
 import { filterSignal } from "@/services/caloriesCacl";
-
+/* The above code is a TypeScript React component called MetricsView. It includes functionality for a
+timer/cronometer that can be started, paused, and reset. The component fetches data from a database
+and an external API (ESP32_URL) to display information about heart rate (pulsaciones) and oxygen
+levels (oxigenacion). */
 export default function MetricsView() {
   const database = new databaseController();
   const [isRunning, setIsRunning] = useState(false);  // Estado para saber si el cronómetro está corriendo
@@ -15,10 +18,8 @@ export default function MetricsView() {
   const [oxigenData,setOxigenData]= useState<number[]>([]);
   const [heartData,setHeartData]= useState<number[]>([]);
   const [age, setage] = useState<number>(20);
-
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>; // Tipo dinámico compatible con navegadores y Node.js
-
     if (isRunning) {
       fetchInfo();
       interval = setInterval(() => {
@@ -30,19 +31,15 @@ export default function MetricsView() {
             }, 1000);
       clearInterval(interval);
     }
-
     return () => clearInterval(interval); // Limpiar el intervalo al desmontar
   }, [isRunning]);
-
   const handleStartStop = () => {
     setIsRunning(!isRunning); // Alternar entre iniciar y detener el cronómetro
   };
-
   const fetchInfo= async()=>{
     const json = await database.getInfo();
     setage(json.age);
   }
-
   const handleReset = () => {
     setIsRunning(false);
     database.sendTrainingInfo(oxigenData,heartData,time, Number(selectedValue));
@@ -51,7 +48,6 @@ export default function MetricsView() {
     setHeartData([]);
     setTime(0); // Reiniciar el cronómetro
   };
-
   // Formatear el tiempo en minutos y segundos
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -75,7 +71,6 @@ export default function MetricsView() {
       setData(null); // Limpiar los datos en caso de error
     }
   }
-
   const watchAlert=()=>{
     if (data?.pulsaciones == "1"){
       Alert.alert("Pulso alto","Tus pulsaciones están por encima del 85% por favor contacta a un profesional");

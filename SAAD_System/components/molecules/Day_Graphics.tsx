@@ -6,6 +6,10 @@ import { databaseController } from "@/services/firebase";
 import { CalcCaloriesDay, trainingZones } from "@/services/caloriesCacl";
 import Pie_Chart from "../atoms/piechart";
 
+/**
+ * The `DayGraphics` function in TypeScript React fetches and displays daily training data including
+ * heart rate, oxygen levels, training zones, calories burned, and exercise time.
+ */
 export default function DayGraphics(){
     const database = new databaseController();
     const [days, setDays] = useState<string[]>([]);
@@ -14,7 +18,6 @@ export default function DayGraphics(){
     const [time, setTime] = useState<number>(0);
     const [calories, setcal] = useState<number>(0);
     const [zones, setzones] = useState<number[]>([]);
-
    useEffect(() => {
         setDays([" ", " ", " ", " ", " ", " ", " "]);
         setOxygen([0,0,0,0,0,0,0]);
@@ -22,10 +25,7 @@ export default function DayGraphics(){
         setTime(0);
         setzones([0,0,0]);
         fetchData();
-        
-        
     }, []);
-
     const fetchData = async ()=>{
         const json = await database.getDayTraining();
         const info = await database.getInfo();
@@ -72,7 +72,6 @@ export default function DayGraphics(){
         </View>
     )
 }
-
 const styles = StyleSheet.create({
     content:{
         flex: 1
