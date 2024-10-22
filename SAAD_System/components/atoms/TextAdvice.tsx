@@ -22,7 +22,7 @@ export default function TextAdvice({title, description}:{title:string, descripti
 const styles = StyleSheet.create({
     content:{
         width: 250,
-        height: 200,
+        height: 500,
         marginTop: 25,
         justifyContent:"center",
         alignItems:"center"
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     },
     lowerCont:{
         width: 250,
-        height:125,
+        height:470,
         backgroundColor: "#a0a0a0",
         borderBottomEndRadius:12,
         borderBottomStartRadius:12
