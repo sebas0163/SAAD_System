@@ -171,12 +171,18 @@ export class databaseController{
     }
     convertDate(dates:string[]):string[]{
         const days = ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"];
-        return dates.map(date => {
+        let list= dates.map(date => {
             const  [year,month,day] = date.split("-").map(Number);
             const dateObj = new Date(`20${year}-${month}-${day}`);
             const weekday = dateObj.getDay();
             return days[weekday]
         });
+        for (let i =0; i <7; i++){
+            if(list[i]== undefined){
+                list[i] = "-"
+            }
+        }
+        return list
     }
 
 }

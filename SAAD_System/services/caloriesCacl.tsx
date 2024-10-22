@@ -40,7 +40,22 @@ export function trainingZones(age:number,heartRate:number[]){
     });
     let result:number[] =[Math.round((porcent[0]*100)/heartRate.length),Math.round((porcent[1]*100)/heartRate.length),Math.round((porcent[2]*100)/heartRate.length)];
     return result
-
-
-
+}
+export function filterSignal(oxygen:number, heartRate:number, age:number){
+    let fcm = 220-age;
+    if(oxygen == -999){
+        oxygen = 80;
+    }if (heartRate == -999){
+        heartRate =80;
+    }if (oxygen < 90){
+        oxygen =0;
+    }if((heartRate*100)/fcm > 85){
+        heartRate =1;
+    }if((heartRate*100)/fcm < 49){
+        heartRate =0;
+    }
+    return {
+        oxigenacion: String(oxygen),
+        pulsaciones: String(heartRate)
+    }
 }

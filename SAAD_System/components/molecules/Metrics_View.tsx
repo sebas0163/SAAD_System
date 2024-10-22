@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet,TouchableOpacity,Text } from "react-native";
+import { View, StyleSheet,TouchableOpacity,Text, Alert } from "react-native";
 import TextHolder from "@/components/atoms/TextHolder";
 import { databaseController } from "@/services/firebase";
 const ESP32_URL = 'http://192.168.100.13:80/data';
 import { Picker } from "@react-native-picker/picker";
+import { filterSignal } from "@/services/caloriesCacl";
 
 export default function MetricsView() {
   const database = new databaseController();
@@ -13,11 +14,13 @@ export default function MetricsView() {
   const [error, setError] = useState<string | null>(null);
   const [oxigenData,setOxigenData]= useState<number[]>([]);
   const [heartData,setHeartData]= useState<number[]>([]);
+  const [age, setage] = useState<number>(20);
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>; // Tipo dinámico compatible con navegadores y Node.js
 
     if (isRunning) {
+      fetchInfo();
       interval = setInterval(() => {
         setTime(prevTime => prevTime + 1); // Incrementar el tiempo cada segundo
       }, 1000);
@@ -35,7 +38,10 @@ export default function MetricsView() {
     setIsRunning(!isRunning); // Alternar entre iniciar y detener el cronómetro
   };
 
-
+  const fetchInfo= async()=>{
+    const json = await database.getInfo();
+    setage(json.age);
+  }
 
   const handleReset = () => {
     setIsRunning(false);
@@ -60,11 +66,27 @@ export default function MetricsView() {
         throw new Error('Error al obtener datos');
       }
       const jsonData = await response.json();
+      //filterSignal(Number(jsonData.oxigenacion), Number(jsonData.pulsaciones), age);
       setData(jsonData);
+      //watchAlert();
       setError(null); // Reiniciar el error si la solicitud es exitosa
     } catch (err) {
       setError("Error al obtener datos");
       setData(null); // Limpiar los datos en caso de error
+    }
+  }
+
+  const watchAlert=()=>{
+    if (data?.pulsaciones == "1"){
+      Alert.alert("Pulso alto","Tus pulsaciones están por encima del 85% por favor contacta a un profesional");
+      handleReset();
+    }if (data?.pulsaciones =="0"){
+      Alert.alert("Pulso alto","Tus pulsaciones están por debajo del 50% por favor contacta a un profesional");
+      console.log("aqui")
+      //handleReset();
+    }if(data?.oxigenacion == "0"){
+      Alert.alert("Oxigenación baja","Tu rango de oxigenación es muy baja. Por favor contacta ayuda profesional");
+      handleReset();
     }
   }
 
@@ -81,7 +103,7 @@ export default function MetricsView() {
       return () => clearInterval(interval); // Limpiar el intervalo al desmontar
     }
   }, [isRunning,data]);
-  const [selectedValue, setSelectedValue] = useState("Liviano");
+  const [selectedValue, setSelectedValue] = useState(0);
   return (
     <View style={styles.content}>
         <Picker
