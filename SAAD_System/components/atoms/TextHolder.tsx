@@ -1,6 +1,16 @@
 import React from "react";
 import { View, StyleSheet, Text} from "react-native";
 
+/**
+ * The `TextHolder` function is a React component that displays a title and description in separate
+ * text elements within a styled view.
+ * @param  - The `TextHolder` function is a React component that takes two props: `title` and
+ * `description`. Both props are expected to be of type `string`. The component renders a view with two
+ * text elements: one for the title and one for the description. The `title` prop is displayed
+ * @returns The `TextHolder` component is being returned, which consists of a `View` component with two
+ * child `View` components (`upperCont` and `lowerCont`) containing `Text` components displaying the
+ * `title` and `description` props respectively.
+ */
 export default function TextHolder({title, description}:{title:string, description:string}){
     return(
         <View style={styles.content}>
@@ -14,11 +24,9 @@ export default function TextHolder({title, description}:{title:string, descripti
                     {description}
                 </Text>
             </View>
-            
         </View>
     )
 }
-
 const styles = StyleSheet.create({
     content:{
         width: 250,

@@ -1,9 +1,18 @@
 import React, { useState } from "react";
-
 import { Alert, StyleSheet, View } from "react-native";
 import { Buttons as Button} from "@/components/atoms/buttons";
 import InputText from "@/components/atoms/input_text";
 import { databaseController } from "@/services/firebase";
+
+/**
+ * The `TextInputArea` function in TypeScript React creates a component with input fields for weight,
+ * height, and age, and a button to submit the information to a database.
+ * @returns The code snippet is a React functional component named `TextInputArea` that returns a View
+ * containing three InputText components for entering weight, height, and age values, along with a
+ * Button component for submitting the information to a database using the `addInfo` method of a
+ * `databaseController` instance. The component uses useState hooks to manage the state of the input
+ * fields (`text1`, `text2`,
+ */
 export default function TextInputArea(){
     const database = new databaseController();
     const [text1,setText1] = useState('');

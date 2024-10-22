@@ -1,6 +1,15 @@
 import React from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 
+/**
+ * The `InputText` function is a React component in TypeScript that renders a text input field with
+ * specified placeholder, value, and onChangeText function.
+ * @param  - - `placeholder`: A string representing the placeholder text to be displayed in the input
+ * field.
+ * @returns The `InputText` function is being returned, which is a React component rendering a
+ * TextInput element with specific props such as placeholder, onChangeText function, value, style,
+ * placeholderTextColor, and textAlign.
+ */
 export default function InputText({placeholder, onChangeText, value}:{placeholder:string, onChangeText: (text:string)=>void, value:string}){
     return(
         <TextInput

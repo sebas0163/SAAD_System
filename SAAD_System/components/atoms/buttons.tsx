@@ -1,6 +1,13 @@
 import React from 'react';
 import { View, Text, Pressable, StyleSheet, TouchableOpacity } from 'react-native';
 
+/**
+ * The `Buttons` function is a React component in TypeScript that renders a button with specified text
+ * and onPress event handler.
+ * @param  - The `Buttons` function is a React component that takes two props:
+ * @returns The `Buttons` component is being returned. It is a functional component that renders a
+ * `TouchableOpacity` button with the specified `text` and `onPress` function.
+ */
 export function Buttons({onPress,text}:{onPress:()=>void, text:string}){
     return(
         <View style={styles.container}>

@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Text, TouchableOpacity, StyleSheet, View } from 'react-native';
 
+/**
+ * The function `RoundButtonWithTimer` is a React component that implements a timer with start, pause,
+ * and reset functionality.
+ * @returns The code snippet is a React functional component named `RoundButtonWithTimer` that
+ * implements a timer functionality with start, pause, and reset buttons. The component returns JSX
+ * elements including a formatted timer display, a button to start or pause the timer, and a button to
+ * reset the timer. The timer increments by 1 second when running, and it can be reset to 0.
+ */
 export default function RoundButtonWithTimer() {
   const [isRunning, setIsRunning] = useState(false);  // Estado para saber si el cronómetro está corriendo
   const [time, setTime] = useState(0);                // Estado para el tiempo del cronómetro (en segundos)

@@ -5,6 +5,15 @@ import { databaseController } from "@/services/firebase";
 import { CalcCaloriesWeek, trainingZones } from "@/services/caloriesCacl";
 import Pie_Chart from "@/components/atoms/piechart";
 
+/**
+ * The WeekGraphics function in TypeScript React fetches and displays weekly training data including
+ * calories burned, exercise time, heart rate, oxygen levels, and training zones percentages.
+ * @returns The `WeekGraphics` function is returning JSX elements that display various graphics and
+ * data related to weekly training information. The function fetches data from a database, sets state
+ * variables for days, oxygen levels, heart rates, exercise time, calories burned, and training zones,
+ * and then displays this data using different graphical components such as `Graphic` and `Pie_Chart`.
+ * The function also includes text labels for
+ */
 export default function WeekGraphics(){
     const database = new databaseController();
     const [days, setDays] = useState<string[]>([]);
@@ -71,7 +80,6 @@ export default function WeekGraphics(){
         </View>
     )
 }
-
 const styles = StyleSheet.create({
     content:{
         flex: 1

@@ -7,6 +7,8 @@ import DayGraphics from "@/components/molecules/Day_Graphics";
 
 const bg= require("@/assets/images/wallpaper.jpg");
 
+/* This code snippet is defining a functional component named `StadisticsView` using the `export
+default` syntax in TypeScript for a React application. */
 export default function StadisticsView(){
     const [selectedValue, setSelectedValue] = useState("día");
     return(
@@ -29,9 +31,7 @@ export default function StadisticsView(){
             )}
             </ImageBackground>
         </ScrollView>
-       
     )
-
 }
 
 const styles = StyleSheet.create({

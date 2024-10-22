@@ -1,6 +1,10 @@
 import { Image, StyleSheet, Platform } from 'react-native';
 import { Index } from '@/components/templates';
 
+/**
+ * The `IndexScreen` function returns the `Index` component in a TypeScript React application.
+ * @returns The `Index` component is being returned from the `IndexScreen` function.
+ */
 export default function IndexScreen() {
   return (
     <Index />

@@ -4,6 +4,10 @@ import { LineChart, BarChart, PieChart } from 'react-native-chart-kit';
 
 const screenWidth = Dimensions.get('window').width;
 
+/* The `export default function Graphic` is a React functional component that takes in two props:
+`label` and `datasets`. These props are destructured from the props object in the function
+parameter. The component returns a View containing a LineChart component from the
+`react-native-chart-kit` library. */
 export default function Graphic({label, datasets}:{label:string[], datasets:number[]}) {
   return (
     <View style={styles.container}>
