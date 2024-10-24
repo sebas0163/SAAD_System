@@ -5,7 +5,7 @@ import CenterText from "@/components/atoms/center_text";
 import { StatusBar } from "expo-status-bar";
 import Title from '@/components/atoms/title';
 import { useRouter } from "expo-router";
-const ESP32_URL = 'http://192.168.100.13:80/connect';
+const ESP32_URL = 'http://192.168.69.83:80/connect';
 
 const ini= require("@/assets/images/home.jpg");
 

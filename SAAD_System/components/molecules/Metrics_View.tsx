@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, StyleSheet,TouchableOpacity,Text, Alert } from "react-native";
 import TextHolder from "@/components/atoms/TextHolder";
 import { databaseController } from "@/services/firebase";
-const ESP32_URL = 'http://192.168.100.13:80/data';
+const ESP32_URL = 'http://192.168.69.83:80/data';
 import { Picker } from "@react-native-picker/picker";
 import { filterSignal } from "@/services/caloriesCacl";
 /* The above code is a TypeScript React component called MetricsView. It includes functionality for a

@@ -17,9 +17,10 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/icon_2.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.sebas0163.SAAD_System"
     },
     "web": {
       "bundler": "metro",
@@ -31,6 +32,11 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "915f2c46-f057-4aa0-bece-9229a06c2d18"
+      }
     }
   }
 }

@@ -3,7 +3,7 @@
 #include <DFRobot_MAX30102.h> //Biblioteca utilizada par la medición de pulsos.
 
 DFRobot_MAX30102 particleSensor;
-const char* ssid = "Familia Monge"; // Reemplazar nombre del WiFi
+const char* ssid = "Sebas"; // Reemplazar nombre del WiFi
 const char* password = "manzana1234"; // Contraseña de la red WiFi
 
 WebServer server(80); //puerto que se está usando
